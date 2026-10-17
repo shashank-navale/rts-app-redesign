@@ -1,6 +1,5 @@
 """Content and structure checks for the case study page (stdlib only)."""
 
-import base64
 import re
 import subprocess
 import unittest
@@ -12,9 +11,12 @@ ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 CSS = ROOT / "assets" / "css" / "styles.css"
 
-# Base64-encoded so this file, which is published with the site, doesn't
-# itself contain the phrases it bans.
-FORBIDDEN = [base64.b64decode(p).decode() for p in ['Y291cnNl', 'Y2xhc3MgcHJvamVjdA==', 'XGJjZW5cYg==', 'NDcyMg==', 'ZmFsbCAyMDI2', 'bWlsZXN0b25l', 'YXNzaWdubWVudA==', 'cHJvZmVzc29y', 'XGJncmFkZXM/XGI=', 'ZGVsaXZlcmFibGU=']]
+# Phrases that must never appear on the site live in a local, gitignored file, so the
+# list itself is never published. Without that file the two scans that use it are skipped.
+BANNED_LIST = ROOT / "tests" / "banned_words.local.txt"
+FORBIDDEN = ([line.strip() for line in BANNED_LIST.read_text(encoding="utf-8").splitlines()
+              if line.strip()] if BANNED_LIST.is_file() else [])
+SKIP_MESSAGE = "local banned-word list not found (tests/banned_words.local.txt)"
 ALLOWED_HOSTS = {"fonts.googleapis.com", "fonts.gstatic.com"}
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input",
         "link", "meta", "source", "track", "wbr"}
@@ -106,11 +108,15 @@ class TestSite(unittest.TestCase):
 
     # --- Task 1 ---------------------------------------------------------
     def test_forbidden_words_absent(self):
+        if not FORBIDDEN:
+            self.skipTest(SKIP_MESSAGE)
         low = self.html.lower()
         for pat in FORBIDDEN:
             self.assertIsNone(re.search(pat, low), f"forbidden: {pat}")
 
     def test_published_files_have_no_forbidden_words(self):
+        if not FORBIDDEN:
+            self.skipTest(SKIP_MESSAGE)
         # GitHub Pages serves every tracked file, not just index.html.
         files = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True,
                                text=True, check=True).stdout.split()
