@@ -362,5 +362,50 @@ class TestSite(unittest.TestCase):
             self.assertNotIn("border-left", rule.group(1))
 
 
+    # --- Critique fixes: type floor, contrast, touch targets ---------------
+    @staticmethod
+    def _css_text():
+        return re.sub(r"/\*.*?\*/", "", CSS.read_text(encoding="utf-8"), flags=re.S)
+
+    @staticmethod
+    def _contrast(fg, bg):
+        def lum(hex_):
+            r, g, b = (int(hex_.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+            f = lambda v: v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+            return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b)
+        hi, lo = sorted((lum(fg), lum(bg)), reverse=True)
+        return (hi + 0.05) / (lo + 0.05)
+
+    def test_no_text_smaller_than_12px(self):
+        for m in re.finditer(r"font-size:\s*([^;]+);", self._css_text()):
+            value = m.group(1).strip()
+            first = re.match(r"(?:clamp\()?\s*([\d.]+)(rem|px)", value)
+            if not first:
+                continue
+            px = float(first.group(1)) * (16 if first.group(2) == "rem" else 1)
+            self.assertGreaterEqual(px, 12, f"font-size: {value}")
+
+    def test_persona_needs_line_is_sized_and_contrasty(self):
+        css = self._css_text()
+        tokens = dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", css))
+        self.assertGreaterEqual(self._contrast(tokens["accent-deep"], tokens["panel"]), 4.5)
+        rule = re.search(r"\.persona \.persona-needs\s*\{([^}]*)\}", css)
+        self.assertIsNotNone(rule, "needs a class-level rule that is not outranked by '.persona > p'")
+        self.assertIn("var(--accent-deep)", rule.group(1))
+        self.assertIn("font-size: 0.75rem", rule.group(1))
+        self.assertNotIn("!important", rule.group(1))
+
+    def test_touch_targets_are_at_least_44px(self):
+        css = self._css_text()
+        for selector in (r"\.footer-links a", r"\.topbar-name"):
+            rule = re.search(selector + r"\s*\{([^}]*)\}", css)
+            self.assertIsNotNone(rule, selector)
+            self.assertIn("min-height: 44px", rule.group(1), selector)
+
+    def test_hero_decoration_is_hidden_on_small_screens(self):
+        self.assertRegex(self._css_text(),
+                         r"@media \(max-width: 899px\)\s*\{\s*\.hero-route\s*\{\s*display: none;")
+
+
 if __name__ == "__main__":
     unittest.main()
