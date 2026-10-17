@@ -292,5 +292,32 @@ class TestSite(unittest.TestCase):
         self.assertIn("aria-current", js)
 
 
+    # --- Critique fixes: enlargeable wireframes ---------------------------
+    def test_every_wireframe_is_enlargeable(self):
+        steps = by_class(self.p, "step")
+        opens = [a for a in self.p.anchors if "step-open" in a["_classes"]]
+        self.assertEqual(len(opens), 8)
+        for n, a in enumerate(opens, 1):
+            # no-JS fallback: the link itself opens the full-size image
+            self.assertTrue(a["href"].startswith(f"assets/img/wf-{n:02d}-"), a["href"])
+            self.assertEqual(len(a["_imgs"]), 1)
+            self.assertEqual(a["_imgs"][0]["src"], a["href"])
+            self.assertTrue(a.get("aria-label", "").startswith("Enlarge"), a.get("aria-label"))
+            self.assertTrue(any("step" in x["_classes"] for x in a["_ancestors"]))
+        self.assertEqual(len(steps), 8)
+
+    def test_screen_viewer_dialog_has_labelled_controls(self):
+        self.assertIn("screen-dialog", self.p.ids)
+        labels = [e.get("aria-label") for e in self.p.elements
+                  if e["_tag"] == "button" and any(x.get("id") == "screen-dialog" for x in e["_ancestors"])]
+        for want in ("Previous screen", "Next screen", "Close"):
+            self.assertIn(want, labels)
+
+    def test_screen_viewer_script_handles_keys_and_focus(self):
+        js = (ROOT / "assets" / "js" / "main.js").read_text(encoding="utf-8")
+        for token in ("initScreenViewer", "ArrowRight", "ArrowLeft", "showModal", ".focus()"):
+            self.assertIn(token, js)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -23,6 +23,72 @@ function initLightbox() {
   dialog.addEventListener("close", () => trigger.focus());
 }
 
+// Opens a walkthrough screen at full size, with previous/next and arrow keys.
+// Without JS (or <dialog>), each screen is a plain link to its full-size image.
+function initScreenViewer() {
+  const dialog = document.getElementById("screen-dialog");
+  const triggers = [...document.querySelectorAll(".step-open")];
+  if (!dialog || !triggers.length || typeof dialog.showModal !== "function") return;
+
+  const img = dialog.querySelector(".screen-viewer-img");
+  const time = dialog.querySelector(".screen-viewer-time");
+  const text = dialog.querySelector(".screen-viewer-text");
+  const count = dialog.querySelector(".screen-viewer-count");
+  const prev = dialog.querySelector(".screen-prev");
+  const next = dialog.querySelector(".screen-next");
+  let index = 0;
+
+  const show = (i) => {
+    index = Math.min(Math.max(i, 0), triggers.length - 1);
+    const link = triggers[index];
+    const step = link.closest(".step");
+    img.src = link.getAttribute("href");
+    img.alt = link.querySelector("img").alt;
+    time.textContent = step.querySelector(".step-time").textContent;
+    text.textContent = step.querySelector(".step-text p:not(.step-time):not(.need)").textContent;
+    count.textContent = `${index + 1} / ${triggers.length}`;
+    prev.disabled = index === 0;
+    next.disabled = index === triggers.length - 1;
+    // A button that just disabled itself would drop keyboard focus; hand it over.
+    if (document.activeElement === prev && prev.disabled) next.focus();
+    if (document.activeElement === next && next.disabled) prev.focus();
+  };
+
+  triggers.forEach((link, i) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      show(i);
+      dialog.showModal();
+    });
+  });
+
+  // The browser would return focus to whichever screen opened the viewer; the reader
+  // may have paged on since, so every way of closing returns it to the screen last viewed.
+  // Deferred a tick so it lands after the browser's own focus restoration.
+  const restoreFocus = () => setTimeout(() => triggers[index].focus(), 0);
+  const closeViewer = () => {
+    dialog.close();
+    restoreFocus();
+  };
+
+  prev.addEventListener("click", () => show(index - 1));
+  next.addEventListener("click", () => show(index + 1));
+  dialog.querySelector(".lightbox-close").addEventListener("click", closeViewer);
+
+  // A click on the backdrop lands on the <dialog> element itself.
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeViewer();
+  });
+
+  dialog.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") show(index + 1);
+    if (event.key === "ArrowLeft") show(index - 1);
+  });
+
+  dialog.addEventListener("cancel", restoreFocus); // Esc
+  dialog.addEventListener("close", restoreFocus);
+}
+
 // Fades sections in as they scroll into view. CSS only hides .reveal under the
 // `js` class, so if this script never runs, everything stays visible.
 function initReveal() {
@@ -85,5 +151,6 @@ initReveal();
 
 document.addEventListener("DOMContentLoaded", () => {
   initLightbox();
+  initScreenViewer();
   initActiveSection();
 });
