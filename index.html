@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HeadsUp — Redesigning Gainesville's RTS App | Shashank Navale</title>
+  <meta name="description" content="A product and UX case study: redesigning Gainesville's RTS transit app around the moment riders stop trusting it, from rider interviews to a prioritized concept and wireframes.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="HeadsUp — Redesigning Gainesville's RTS App">
+  <meta property="og:description" content="From rider interviews to a prioritized concept and wireframes: a product and UX case study by Shashank Navale.">
+  <meta property="og:image" content="https://shashank-navale.github.io/rts-app-redesign/assets/img/wf-05-bus-vanished.png">
+  <meta property="og:url" content="https://shashank-navale.github.io/rts-app-redesign/">
+  <meta name="theme-color" content="#f4f2ec">
+  <link rel="icon" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+  <nav class="topbar" aria-label="Sections">
+    <div class="topbar-inner wrap">
+      <a class="topbar-name mono" href="#hero">Shashank Navale</a>
+      <ul class="topbar-links mono">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#decision">Decision</a></li>
+        <li><a href="#design">Design</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-grid wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Case study · Product &amp; UX · Shashank Navale</p>
+        <span class="chip">Detour</span>
+        <h1>Your bus dropped off the map.</h1>
+        <p class="lede">Redesigning Gainesville's RTS transit app around the moment riders stop trusting it — for the UF students who make up about 70% of its riders.</p>
+        <dl class="hero-meta mono">
+          <div><dt>Role</dt><dd>Solo · user research, product strategy, UX design</dd></div>
+          <div><dt>Methods</dt><dd>5 rider interviews · personas · NUF prioritization · wireframes · wireflow</dd></div>
+          <div><dt>Outcome</dt><dd>HeadsUp, a commute companion that warns riders before they're stranded</dd></div>
+        </dl>
+      </div>
+      <figure class="hero-phone">
+        <svg class="hero-route" viewBox="0 0 400 600" aria-hidden="true" focusable="false">
+          <path d="M-20 470 H120 V150 H330 V-20" class="route-solid"/>
+          <path d="M120 300 H40 V90 H330" class="route-detour"/>
+        </svg>
+        <img class="frame" src="assets/img/wf-05-bus-vanished.png" width="390" height="844"
+             alt="HeadsUp alert screen: 'Your bus dropped off the map.' Route 33 was last seen at 8:27 and is likely detouring around construction, with a button to see a backup plan.">
+      </figure>
+    </div>
+  </header>
+
+  <main>
+    <section id="problem" class="section reveal" aria-labelledby="problem-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">01 · The problem</p>
+          <h2 id="problem-title">A 1.1★ app riders double-check with Google Maps</h2>
+          <p>RTS's app is supposed to show where every bus is so riders can time their trip. In practice, riders open it, don't trust what they see, and check a second app, or just ask whoever else is waiting at the stop.</p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="stats">
+            <div class="panel stat">
+              <p class="stat-big">1.1★</p>
+              <p>average across 235 App Store reviews, unusually low even for a transit app.</p>
+            </div>
+            <div class="panel stat">
+              <p class="stat-big">Vanishing buses</p>
+              <p>Trackers disappear from the map when a bus detours around campus construction, which happens often.</p>
+            </div>
+            <div class="panel stat">
+              <p class="stat-big">Prior knowledge required</p>
+              <p>You have to already know a stop number or route name. The map never shows the stops near you.</p>
+            </div>
+          </div>
+
+          <div class="shots" role="group" aria-label="Screenshots of the current RTS app">
+            <figure class="shot">
+              <img class="frame" src="assets/img/rts-current-map.jpg" width="366" height="716" loading="lazy"
+                   alt="The current RTS app: a Google map of Gainesville covered in pink bus icons for every route, with no stops marked and no arrival times visible.">
+              <figcaption><span class="mono">Live map</span> Every bus at once, no stops near you, and no way to tell a late bus from a missing one.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img class="frame" src="assets/img/rts-current-favorites.jpg" width="600" height="1177" loading="lazy"
+                   alt="The current RTS app's Favorites screen: one saved stop labeled by stop number 1805 on Route 33 Inbound with a 3 minute arrival, and an 'Add a Favorite' section that starts with a 'Select route' dropdown reading None Selected.">
+              <figcaption><span class="mono">Favorites</span> Saved stops are labeled by stop number, and adding one starts with picking a route from a list.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img class="frame" src="assets/img/rts-current-plan-trip.jpg" width="600" height="1173" loading="lazy"
+                   alt="The current RTS app's Plan a Trip panel laid over the map: empty Origin and Destination fields with pale grey placeholder text, Best Route, Fewer Transfers and Less Walking options, a Leave Now dropdown, and Clear and OK buttons.">
+              <figcaption><span class="mono">Plan a Trip</span> A form that covers the map, with pale placeholder text and a dim OK button that are hard to read.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <p class="callout"><span class="mono">The real gap</span> The GPS underneath works. What fails is the experience on top of it: riders get data, but not answers to <em>"is my bus actually coming?"</em></p>
+      </div>
+    </section>
+
+    <section id="research" class="section reveal" aria-labelledby="research-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">02 · Research</p>
+          <h2 id="research-title">Five riders, five needs</h2>
+          <p>I ran one-on-one interviews with five Gainesville riders, from daily commuters to occasional riders, then clustered the notes in an affinity diagram to find the needs behind the complaints.</p>
+        </div>
+
+        <figure class="pullquote">
+          <blockquote><p>“…designed in the 90s.”</p></blockquote>
+          <figcaption class="mono">— A rider describing the RTS app</figcaption>
+          <p class="pullquote-story">Another rider was told her bus was 10–15 minutes away. After more than 20 minutes with nothing on the road, she gave up and paid for a Lyft to make it to class.</p>
+        </figure>
+
+        <div class="research-grid">
+          <div>
+            <h3 class="list-title">What riders need</h3>
+            <ol class="needs">
+              <li><span class="mono">N1</span> Arrival estimates I can trust</li>
+              <li><span class="mono">N2</span> A heads-up when a bus is late, missing, or done for the night</li>
+              <li><span class="mono">N3</span> Feeling safe while waiting and getting home at night</li>
+              <li><span class="mono">N4</span> Finding my route without knowing the system</li>
+              <li><span class="mono">N5</span> An app that loads and responds on the go</li>
+            </ol>
+          </div>
+
+          <div class="personas">
+            <article class="persona persona--primary">
+              <div class="persona-head">
+                <span class="avatar" aria-hidden="true">MG</span>
+                <div>
+                  <h3>Maya Garcia</h3>
+                  <p class="mono persona-role">The Daily Commuter</p>
+                </div>
+                <span class="chip chip--solid">Primary</span>
+              </div>
+              <p>Fourth-year who rides weekdays to class and a research lab. Knows the system's quirks and keeps other map and rideshare apps as backups.</p>
+              <p class="persona-quote">“I need to know if my bus is actually on its way.”</p>
+              <p class="mono persona-needs">Needs · N1 · N2</p>
+            </article>
+
+            <article class="persona">
+              <div class="persona-head">
+                <span class="avatar" aria-hidden="true">JL</span>
+                <div>
+                  <h3>Jordan Lee</h3>
+                  <p class="mono persona-role">The Occasional Rider</p>
+                </div>
+              </div>
+              <p>First-year without a car who rides only when it's too far to walk, and finds the crowded map hard to read.</p>
+              <p class="persona-quote">“Tell me what I'm looking at, and that I'll get there safely.”</p>
+              <p class="mono persona-needs">Needs · N2 · N3 · N4</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="decision" class="section reveal" aria-labelledby="decision-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">03 · The decision</p>
+          <h2 id="decision-title">24 ideas → 2 concepts → 1 bet</h2>
+          <p>I brainstormed 24 feature ideas, 12 for each persona, and scored each one from 1 to 10 on how <strong>New</strong>, <strong>Useful</strong> and <strong>Feasible</strong> it is (NUF). Ideas that totaled 22 or more advanced, and the strongest ones grouped into two concepts.</p>
+        </div>
+
+        <ol class="funnel" aria-label="Prioritization funnel">
+          <li><span class="funnel-num">24</span><span class="mono">ideas scored</span></li>
+          <li><span class="funnel-num">2</span><span class="mono">concepts</span></li>
+          <li class="funnel-pick"><span class="funnel-num">1</span><span class="mono">to build</span></li>
+        </ol>
+
+        <div class="concepts">
+          <article class="concept concept--chosen">
+            <div class="concept-top">
+              <h3>HeadsUp</h3>
+              <span class="chip chip--solid">Chosen</span>
+            </div>
+            <p class="mono concept-for">For Maya, the daily commuter · N1 · N2</p>
+            <p class="concept-idea">Tells her what's happening with her bus <em>before</em> she's standing at the stop.</p>
+            <ul class="concept-features">
+              <li>Leave-by alert</li>
+              <li>Vanished-bus alert</li>
+              <li>Status tag on every bus</li>
+              <li>One-tap backup plan</li>
+            </ul>
+            <div class="score-row">
+              <div class="score" style="--v:91" role="presentation"></div>
+              <p class="score-label"><span class="mono">NUF</span> 91</p>
+            </div>
+          </article>
+
+          <article class="concept">
+            <div class="concept-top">
+              <h3>Where2</h3>
+            </div>
+            <p class="mono concept-for">For Jordan, the occasional rider · N2 · N3 · N4</p>
+            <p class="concept-idea">Destination first: say where you're going, get one clear route.</p>
+            <ul class="concept-features">
+              <li>Destination search</li>
+              <li>Nearest stops on your route</li>
+              <li>Plain-language steps</li>
+              <li>Last-bus-tonight countdown</li>
+            </ul>
+            <div class="score-row">
+              <div class="score score--muted" style="--v:89" role="presentation"></div>
+              <p class="score-label"><span class="mono">NUF</span> 89</p>
+            </div>
+          </article>
+        </div>
+        <p class="score-note mono">Concept score = sum of its four feature ideas (HeadsUp 22 + 23 + 23 + 23 · Where2 23 + 22 + 22 + 22)</p>
+
+        <div class="rationale">
+          <div>
+            <h3>Why HeadsUp</h3>
+            <p>It goes after the app's two biggest failures, wrong arrival times and buses vanishing from the map, which hit every rider every day. Because the margin was only two points, I didn't let the score decide alone: five potential riders reviewed both concepts, and their preferences matched the NUF ranking.</p>
+          </div>
+          <div>
+            <h3>Why not Where2, yet</h3>
+            <p>Its wins, destination search and plain-language directions, matter most to new riders. They build on the same live-tracking foundation, which makes them a natural second phase rather than a competing bet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="design" class="section reveal" aria-labelledby="design-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">04 · The design</p>
+          <h2 id="design-title">One morning with HeadsUp</h2>
+          <p>Maya has a 9:00 lab meeting. Here's how HeadsUp gets her there, first when everything goes right, then when her bus disappears.</p>
+        </div>
+
+        <div class="path">
+          <p class="path-label mono"><span class="path-dot"></span>Path A · Bus on time</p>
+          <ol class="steps">
+            <li class="step" data-step="01">
+              <img class="frame" src="assets/img/wf-01-saved-commutes.png" width="390" height="844" loading="lazy"
+                   alt="My commutes screen: a 'Next up' card for Home to Research Lab on Route 33, marked On time, showing the bus at 8:31 and leave by 8:25.">
+              <div class="step-text">
+                <p class="step-time mono">01 · 8:15</p>
+                <p>Her commute is waiting: live ETA, leave-by time, and an On-time tag up front.</p>
+                <p class="need mono">N1</p>
+              </div>
+            </li>
+            <li class="step" data-step="02">
+              <img class="frame" src="assets/img/wf-02-live-commute.png" width="390" height="844" loading="lazy"
+                   alt="Live commute screen: a large countdown to leaving home, with her walk time to the stop and the trip steps listed below.">
+              <div class="step-text">
+                <p class="step-time mono">02 · 8:20</p>
+                <p>The countdown already includes her walk to the stop.</p>
+                <p class="need mono">N1</p>
+              </div>
+            </li>
+            <li class="step" data-step="03">
+              <img class="frame" src="assets/img/wf-03-lock-screen.png" width="390" height="844" loading="lazy"
+                   alt="Lock screen notification: 'Leave now for Route 33. Your bus reaches the stop at 8:31 and your walk is 6 min.' with Snooze and I'm leaving buttons.">
+              <div class="step-text">
+                <p class="step-time mono">03 · 8:25</p>
+                <p>“Leave now” lands on her lock screen. No need to open the app.</p>
+                <p class="need mono">N1</p>
+              </div>
+            </li>
+            <li class="step" data-step="04">
+              <img class="frame" src="assets/img/wf-04-walking.png" width="390" height="844" loading="lazy"
+                   alt="Walking screen: a map showing only her route, '4 min to your stop', and a note that HeadsUp is watching the bus and will warn her if it runs late.">
+              <div class="step-text">
+                <p class="step-time mono">04 · 8:27</p>
+                <p>HeadsUp keeps watching the bus while she walks. The map shows only her route.</p>
+                <p class="need mono">N1 · N2</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="path path--b">
+          <p class="path-label mono"><span class="path-dot"></span>Path B · Bus late or gone</p>
+          <ol class="steps">
+            <li class="step" data-step="05">
+              <img class="frame" src="assets/img/wf-05-bus-vanished.png" width="390" height="844" loading="lazy"
+                   alt="Alert screen: 'Your bus dropped off the map.' Route 33 last seen at 8:27, likely detouring around construction; waiting would get her to the lab at 9:02.">
+              <div class="step-text">
+                <p class="step-time mono">05 · 8:29</p>
+                <p>Route 33 drops off the map. She sees where it was last seen, the likely detour, and what waiting would cost her.</p>
+                <p class="need mono">N2</p>
+              </div>
+            </li>
+            <li class="step" data-step="06">
+              <img class="frame" src="assets/img/wf-06-status.png" width="390" height="844" loading="lazy"
+                   alt="Bus status dashboard: a list of routes, each tagged On time, Late, Full, Detour, or Out of service.">
+              <div class="step-text">
+                <p class="step-time mono">06 · Any time</p>
+                <p>Every bus carries a status: On time, Late, Full, Detour, or Out of service.</p>
+                <p class="need mono">N2</p>
+              </div>
+            </li>
+            <li class="step" data-step="07">
+              <img class="frame" src="assets/img/wf-07-backup-plan.png" width="390" height="844" loading="lazy"
+                   alt="Backup plan screen: 'Get to the lab by 9:00.' Rideshare arriving 8:52, walking arriving 9:02, and the next bus arriving 9:04, compared against a 9:00 deadline line.">
+              <div class="step-text">
+                <p class="step-time mono">07 · 8:29</p>
+                <p>Rideshare, walking, and the next bus side by side, measured against her 9:00 deadline.</p>
+                <p class="need mono">N2</p>
+              </div>
+            </li>
+            <li class="step" data-step="08">
+              <img class="frame" src="assets/img/wf-08-backup-confirmed.png" width="390" height="844" loading="lazy"
+                   alt="Backup confirmed screen: 'You'll make it.' Rideshare pickup at 8:33, arriving 8:52, with an option to be told if Route 33 recovers.">
+              <div class="step-text">
+                <p class="step-time mono">08 · 8:30</p>
+                <p>Ride booked, arriving 8:52, and she'll hear if Route 33 recovers.</p>
+                <p class="need mono">N1 · N2</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <figure class="wireflow">
+          <figcaption>
+            <p class="eyebrow">How it flows</p>
+            <p>The full wireflow: Path A when the bus is on time, Path B when it's late or gone, and where they meet.</p>
+          </figcaption>
+          <a class="wireflow-open" href="assets/img/wireflow.png" aria-haspopup="dialog">
+            <img src="assets/img/wireflow.png" width="2256" height="1184" loading="lazy"
+                 alt="Wireflow diagram. Path A, bus on time: saved commutes, live commute, leave-by alert, walking to stop, board Route 33 and arrive at 8:48. Path B, bus late or gone: bus vanished alert, status on every bus, backup plan, backup confirmed, ride to the lab and arrive at 8:52.">
+            <span class="wireflow-hint mono">Tap to enlarge ↗</span>
+          </a>
+        </figure>
+
+        <dialog id="wireflow-dialog" class="lightbox" aria-label="Wireflow diagram, full size">
+          <button type="button" class="lightbox-close mono" aria-label="Close">Close ✕</button>
+          <div class="lightbox-scroll">
+            <img src="assets/img/wireflow.png" width="2256" height="1184"
+                 alt="Wireflow diagram at full size, showing Path A (bus on time) and Path B (bus late or gone).">
+          </div>
+        </dialog>
+      </div>
+    </section>
+
+    <section id="status" class="section reveal" aria-labelledby="status-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">05 · Where it stands</p>
+          <h2 id="status-title">Validated direction, next: usability testing</h2>
+        </div>
+
+        <div class="status-grid">
+          <div class="status-card">
+            <p class="mono status-tag">Validated</p>
+            <p>Five potential riders reviewed both concepts, and their preferences matched the NUF scoring, an early signal that riders would choose HeadsUp over today's app.</p>
+          </div>
+          <div class="status-card">
+            <p class="mono status-tag">Next</p>
+            <ol class="next-steps">
+              <li>Run a usability test of the wireframes with daily riders</li>
+              <li>Build a clickable prototype of both paths</li>
+              <li>Measure success as fewer missed buses and less time waiting past the estimate</li>
+              <li>Then bring in Where2's destination search for new riders</li>
+            </ol>
+          </div>
+          <div class="status-card">
+            <p class="mono status-tag">What I learned</p>
+            <p>The hardest call wasn't finding ideas. It was choosing between two strong concepts two points apart. Tying the decision to the pain riders hit most often, and checking it with riders, made it a choice I could defend.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <p class="footer-name">Shashank Navale</p>
+        <p class="mono footer-sub">Product &amp; UX</p>
+      </div>
+      <ul class="footer-links mono">
+        <li><a href="https://www.linkedin.com/in/shashank-navale/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="mailto:shashanknavale@ufl.edu">Email</a></li>
+        <li><a href="assets/Shashank_Navale_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
