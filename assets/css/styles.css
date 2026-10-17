@@ -59,12 +59,26 @@ p { margin: 0; text-wrap: pretty; }
 
 .eyebrow {
   font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 18px;
 }
+
+/* Section markers: a number and a name that match the menu, in sentence case */
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.section-num { font-family: var(--mono); font-weight: 500; color: var(--accent); }
 
 .chip {
   display: inline-block;
@@ -300,7 +314,7 @@ p { margin: 0; text-wrap: pretty; }
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding-bottom: 14px;
@@ -317,6 +331,7 @@ p { margin: 0; text-wrap: pretty; }
 .step { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: start; }
 .step .frame { width: 100%; }
 .step-time { font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
+.step-time .step-n { margin-right: 8px; font-weight: 500; color: var(--ink); }
 .step-text p:not(.step-time):not(.need) { font-size: 0.875rem; line-height: 1.45; }
 .need { margin-top: 8px; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.04em; }
 

@@ -121,8 +121,8 @@ function initReveal() {
 }
 
 // Marks the menu link for the section currently under the sticky bar.
-// A section counts as current once its top passes ~30% down the viewport; sections
-// without a menu link (like the closing one) clear the highlight.
+// A section counts as current once its top passes ~30% down the viewport; above the
+// first section (the hero) nothing is highlighted.
 function initActiveSection() {
   const links = [...document.querySelectorAll(".topbar-links a")];
   const sections = [...document.querySelectorAll("main > section")];

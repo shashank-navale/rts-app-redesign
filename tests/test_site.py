@@ -210,7 +210,7 @@ class TestSite(unittest.TestCase):
         for s in ["usability test", "clickable prototype", "preferences matched"]:
             self.assertIn(s, self.p.text)
         self.assertNotIn("usability tested", self.p.text)
-        status = self.p.text.split("05 · Where it stands", 1)[-1]
+        status = self.p.text.split("Where it stands", 1)[-1]
         self.assertNotIn("%", status)
 
     def test_meta_tags(self):
@@ -405,6 +405,34 @@ class TestSite(unittest.TestCase):
     def test_hero_decoration_is_hidden_on_small_screens(self):
         self.assertRegex(self._css_text(),
                          r"@media \(max-width: 899px\)\s*\{\s*\.hero-route\s*\{\s*display: none;")
+
+
+    # --- Section labels: larger, no dot separators, tied to the menu ------
+    SECTION_LABELS = [("problem", "01 The problem"), ("research", "02 Research"),
+                      ("decision", "03 The decision"), ("design", "04 The design"),
+                      ("status", "05 Where it stands")]
+
+    def test_no_middle_dot_separators(self):
+        self.assertNotIn("\u00b7", self.html, "decorative middle-dot separators read as templated")
+
+    def test_section_labels_are_a_number_then_a_name(self):
+        labels = by_class(self.p, "section-label")
+        self.assertEqual(len(labels), 5)
+        self.assertEqual(len(by_class(self.p, "section-num")), 5)
+        for sid, expected in self.SECTION_LABELS:
+            text = self.p.section(sid).strip()
+            self.assertTrue(text.startswith(expected + " "), f"{sid}: {text[:40]!r}")
+
+    def test_section_labels_are_much_larger_than_the_old_12px(self):
+        rule = re.search(r"\.section-label\s*\{([^}]*)\}", self._css_text())
+        self.assertIsNotNone(rule)
+        self.assertIn("font-size: 1.25rem", rule.group(1))
+
+    def test_menu_has_a_link_for_every_section(self):
+        links = {a["href"][1:] for a in self.p.anchors
+                 if any("topbar-links" in x["_classes"] for x in a["_ancestors"])}
+        for sid, _ in self.SECTION_LABELS:
+            self.assertIn(sid, links)
 
 
 if __name__ == "__main__":
