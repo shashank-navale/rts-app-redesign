@@ -435,5 +435,59 @@ class TestSite(unittest.TestCase):
             self.assertIn(sid, links)
 
 
+    # --- Polish pass ------------------------------------------------------
+    def test_no_em_dashes_in_page_copy(self):
+        self.assertNotIn("\u2014", self.html)
+
+    def test_close_buttons_are_text_labelled_and_44px(self):
+        self.assertNotIn("\u2715", self.html, "a glyph is standing in for an icon")
+        rule = re.search(r"\.lightbox-close\s*\{([^}]*)\}", self._css_text())
+        self.assertIsNotNone(rule)
+        self.assertIn("min-height: 44px", rule.group(1))
+
+    def test_colors_come_from_tokens(self):
+        outside_root = re.sub(r":root\s*\{[^}]*\}", "", self._css_text(), count=1)
+        for literal in ("#fff", "#ffffff", "#a8a499", "#4a4a4a", "rgba(244"):
+            self.assertNotIn(literal, outside_root, f"hard-coded {literal}; use a token")
+
+    def test_sticky_menu_is_solid_not_glass(self):
+        rule = re.search(r"(?<![\w-])\.topbar\s*\{([^}]*)\}", self._css_text())
+        self.assertIsNotNone(rule)
+        self.assertNotIn("backdrop-filter", rule.group(1))
+        self.assertIn("var(--paper)", rule.group(1))
+
+    def test_all_caps_is_reserved_for_short_labels(self):
+        allowed = {".hero-meta dt", ".list-title", ".shot figcaption .mono",
+                   ".status-tag", ".footer-sub"}
+        for m in re.finditer(r"([^{}]+)\{([^}]*text-transform:\s*uppercase[^}]*)\}", self._css_text()):
+            self.assertIn(m.group(1).strip(), allowed)
+
+    def test_section_intro_has_a_comfortable_measure(self):
+        rule = re.search(r"\.section-head h2 \+ p\s*\{([^}]*)\}", self._css_text())
+        self.assertIsNotNone(rule)
+        measure = re.search(r"max-width:\s*(\d+)ch", rule.group(1))
+        self.assertIsNotNone(measure, "cap the intro line length in ch")
+        self.assertLessEqual(int(measure.group(1)), 70)
+
+    def test_spacing_values_sit_on_the_even_scale(self):
+        for m in re.finditer(r"(?:padding|margin|gap)[a-z-]*:\s*([^;]+);", self._css_text()):
+            for n in re.findall(r"(?<![\d.])(\d+)px", m.group(1)):
+                self.assertEqual(int(n) % 2, 0, m.group(0))
+
+    def test_dead_panel_style_is_gone(self):
+        self.assertNotRegex(self._css_text(), r"(?<![\w-])\.panel\s*\{")
+
+    def test_hero_image_loads_first(self):
+        hero_imgs = [i for i in self.p.imgs if any(a.get("id") == "hero" for a in i["_ancestors"])]
+        self.assertEqual(len(hero_imgs), 1)
+        self.assertEqual(hero_imgs[0].get("fetchpriority"), "high")
+        self.assertNotEqual(hero_imgs[0].get("loading"), "lazy")
+
+    def test_buttons_have_a_pressed_state(self):
+        css = self._css_text()
+        for selector in (r"\.screen-prev", r"\.lightbox-close"):
+            self.assertRegex(css, selector + r"[^{]*:active")
+
+
 if __name__ == "__main__":
     unittest.main()
