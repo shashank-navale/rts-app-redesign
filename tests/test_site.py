@@ -28,6 +28,7 @@ class SiteParser(HTMLParser):
         self.imgs, self.links, self.scripts, self.meta = [], [], [], []
         self.anchors, self.ids, self.elements = [], [], []
         self.title = ""
+        self.section_text = {}
         self._text, self._stack, self._skip = [], [], 0
 
     def handle_starttag(self, tag, attrs):
@@ -71,6 +72,12 @@ class SiteParser(HTMLParser):
             self.title += data
         if not self._skip:
             self._text.append(data)
+            sid = next((e.get("id") for e in reversed(self._stack)
+                        if e["_tag"] in ("section", "header") and e.get("id")), None)
+            self.section_text.setdefault(sid, []).append(data)
+
+    def section(self, sid):
+        return re.sub(r"\s+", " ", " ".join(self.section_text.get(sid, [])))
 
     @property
     def text(self):
@@ -317,6 +324,42 @@ class TestSite(unittest.TestCase):
         js = (ROOT / "assets" / "js" / "main.js").read_text(encoding="utf-8")
         for token in ("initScreenViewer", "ArrowRight", "ArrowLeft", "showModal", ".focus()"):
             self.assertIn(token, js)
+
+
+    # --- Critique fixes: clarity and hierarchy -----------------------------
+    def test_need_codes_only_appear_beside_their_legend(self):
+        for sid in ("hero", "problem", "decision", "design", "status"):
+            self.assertIsNone(re.search(r"\bN[1-5]\b", self.p.section(sid)),
+                              f"need code outside research: {sid}")
+        self.assertRegex(self.p.section("research"), r"\bN1\b")
+
+    def test_decision_leads_with_the_verdict(self):
+        text = self.p.section("decision")
+        self.assertLess(text.index("Why HeadsUp"), text.index("Where2"))
+        self.assertEqual(by_class(self.p, "funnel"), [], "heading already says 24 -> 2 -> 1")
+
+    def test_problem_facts_are_a_list_not_cards(self):
+        self.assertEqual(by_class(self.p, "stat"), [])
+        lis = [e for e in self.p.elements if e["_tag"] == "li"
+               and any("problem-facts" in a["_classes"] for a in e["_ancestors"])]
+        self.assertEqual(len(lis), 3)
+
+    def test_pullquote_is_smaller_than_section_headings(self):
+        css = re.sub(r"/\*.*?\*/", "", CSS.read_text(encoding="utf-8"), flags=re.S)
+
+        def max_rem(selector):
+            rule = re.search(selector + r"\s*\{([^}]*)\}", css)
+            self.assertIsNotNone(rule, selector)
+            size = re.search(r"font-size:\s*clamp\([^,]+,[^,]+,\s*([\d.]+)rem\)", rule.group(1))
+            self.assertIsNotNone(size, selector)
+            return float(size.group(1))
+
+        self.assertLess(max_rem(r"\.pullquote blockquote p"), max_rem(r"(?<![\w.-])h2"))
+
+    def test_callout_has_no_colored_side_border(self):
+        css = re.sub(r"/\*.*?\*/", "", CSS.read_text(encoding="utf-8"), flags=re.S)
+        for rule in re.finditer(r"\.callout\s*\{([^}]*)\}", css):
+            self.assertNotIn("border-left", rule.group(1))
 
 
 if __name__ == "__main__":
