@@ -38,11 +38,12 @@
         <p class="eyebrow">Product &amp; UX case study by Shashank Navale</p>
         <span class="chip">Detour</span>
         <h1>Your bus dropped off the map.</h1>
-        <p class="lede">Redesigning Gainesville's RTS transit app around the moment riders stop trusting it, for the UF students who make up about 70% of its riders.</p>
+        <p class="lede">Redesigning Gainesville's RTS bus app for UF students, about 70% of its riders.</p>
         <dl class="hero-meta mono">
-          <div><dt>Role</dt><dd>Solo: user research, product strategy, UX design</dd></div>
-          <div><dt>Methods</dt><dd>5 rider interviews, personas, NUF prioritization, wireframes, wireflow</dd></div>
-          <div><dt>Outcome</dt><dd>HeadsUp, a commute companion that warns riders before they're stranded</dd></div>
+          <div><dt>Problem</dt><dd>A 1.1★ bus app riders don't trust</dd></div>
+          <div><dt>What I did</dt><dd>5 rider interviews, 24 ideas scored, 1 concept chosen</dd></div>
+          <div><dt>Outcome</dt><dd>HeadsUp: 8 wireframes and a flow diagram</dd></div>
+          <div><dt>Role</dt><dd>Solo, from research to design</dd></div>
         </dl>
       </div>
       <figure class="hero-phone">
@@ -62,14 +63,14 @@
         <div class="section-head">
           <p class="section-label"><span class="section-num">01</span> The problem</p>
           <h2 id="problem-title">A 1.1★ app riders double-check with Google Maps</h2>
-          <p>RTS's app is meant to show where every bus is. In practice, riders open it, don't trust what they see, and check a second app or ask whoever else is waiting at the stop.</p>
+          <p>Riders open it, don't trust it, and check a second app.</p>
         </div>
 
         <div class="problem-grid">
           <ul class="problem-facts">
-            <li><strong>1.1★</strong> average across 235 App Store reviews, unusually low even for a transit app.</li>
-            <li><strong>Vanishing buses.</strong> Trackers disappear from the map when a bus detours around campus construction, which happens often.</li>
-            <li><strong>Prior knowledge required.</strong> You have to already know a stop number or route name. The map never shows the stops near you.</li>
+            <li><strong>1.1★</strong> average across 235 App Store reviews.</li>
+            <li><strong>Vanishing buses.</strong> Trackers drop off the map when buses detour.</li>
+            <li><strong>Prior knowledge required.</strong> You must already know a stop number or route name.</li>
           </ul>
 
           <div class="shots" role="group" aria-label="Screenshots of the current RTS app">
@@ -91,7 +92,6 @@
           </div>
         </div>
 
-        <p class="callout"><strong>The GPS underneath works.</strong> What fails is the experience on top of it: riders get data, but not answers to <em>"is my bus actually coming?"</em></p>
       </div>
     </section>
 
@@ -100,13 +100,13 @@
         <div class="section-head">
           <p class="section-label"><span class="section-num">02</span> Research</p>
           <h2 id="research-title">Five riders, five needs</h2>
-          <p>I ran one-on-one interviews with five Gainesville riders, from daily commuters to occasional riders, then clustered the notes in an affinity diagram to find the needs behind the complaints.</p>
+          <p>I interviewed five riders and clustered the notes into five needs.</p>
         </div>
 
         <figure class="pullquote">
           <blockquote><p>“…designed in the 90s.”</p></blockquote>
           <figcaption class="mono">A rider describing the RTS app</figcaption>
-          <p class="pullquote-story">Another rider was told her bus was 10–15 minutes away. After more than 20 minutes with nothing on the road, she gave up and paid for a Lyft to make it to class.</p>
+          <p class="pullquote-story">Another rider, told 10–15 minutes, waited over 20 and then paid for a Lyft to make class.</p>
         </figure>
 
         <div class="research-grid">
@@ -131,7 +131,6 @@
                 </div>
                 <span class="chip chip--solid">Primary</span>
               </div>
-              <p class="persona-desc">Fourth-year who rides weekdays to class and a research lab. Knows the system's quirks and keeps other map and rideshare apps as backups.</p>
               <p class="persona-quote">“I need to know if my bus is actually on its way.”</p>
               <p class="mono persona-needs">Needs N1, N2</p>
             </article>
@@ -144,7 +143,6 @@
                   <p class="mono persona-role">The Occasional Rider</p>
                 </div>
               </div>
-              <p class="persona-desc">First-year without a car who rides only when it's too far to walk, and finds the crowded map hard to read.</p>
               <p class="persona-quote">“Tell me what I'm looking at, and that I'll get there safely.”</p>
               <p class="mono persona-needs">Needs N2, N3, N4</p>
             </article>
@@ -158,12 +156,12 @@
         <div class="section-head">
           <p class="section-label"><span class="section-num">03</span> The decision</p>
           <h2 id="decision-title">24 ideas → 2 concepts → 1 bet</h2>
-          <p>I brainstormed 24 feature ideas, 12 for each persona, and scored each one from 1 to 10 on how <strong>New</strong>, <strong>Useful</strong> and <strong>Feasible</strong> it is (NUF). Ideas that totaled 22 or more advanced, and the strongest ones grouped into two concepts.</p>
+          <p>I scored each idea 1–10 on how <strong>New</strong>, <strong>Useful</strong> and <strong>Feasible</strong> it is (NUF).</p>
         </div>
 
         <div class="verdict">
           <h3>Why HeadsUp</h3>
-          <p>It goes after the app's two biggest failures, wrong arrival times and buses vanishing from the map, which hit every rider every day. Because the margin was only two points, I didn't let the score decide alone: five potential riders reviewed both concepts, and their preferences matched the NUF ranking.</p>
+          <p>It targets the two failures riders hit daily: wrong arrival times and vanishing buses. Five riders reviewed both concepts, and their preferences matched the scores.</p>
         </div>
 
         <div class="concepts">
@@ -173,7 +171,7 @@
               <span class="chip chip--solid">Chosen</span>
             </div>
             <p class="mono concept-for">For Maya, the daily commuter</p>
-            <p class="concept-idea">Tells her what's happening with her bus <em>before</em> she's standing at the stop.</p>
+            <p class="concept-idea">Warns her about her bus <em>before</em> she's at the stop.</p>
             <ul class="concept-features">
               <li>Leave-by alert</li>
               <li>Vanished-bus alert</li>
@@ -191,7 +189,7 @@
               <h3>Where2</h3>
             </div>
             <p class="mono concept-for">For Jordan, the occasional rider</p>
-            <p class="concept-idea">Destination first: say where you're going, get one clear route.</p>
+            <p class="concept-idea">Say where you're going, get one clear route.</p>
             <ul class="concept-features">
               <li>Destination search</li>
               <li>Nearest stops on your route</li>
@@ -204,11 +202,10 @@
             </div>
           </article>
         </div>
-        <p class="score-note mono">Concept score = sum of its four feature ideas (HeadsUp: 22 + 23 + 23 + 23. Where2: 23 + 22 + 22 + 22.)</p>
 
         <div class="verdict verdict--after">
           <h3>Why not Where2, yet</h3>
-          <p>Its wins, destination search and plain-language directions, matter most to new riders. They build on the same live-tracking foundation, which makes them a natural second phase rather than a competing bet.</p>
+          <p>Its destination search and plain-language steps suit new riders, and can build on HeadsUp later.</p>
         </div>
       </div>
     </section>
@@ -218,7 +215,7 @@
         <div class="section-head">
           <p class="section-label"><span class="section-num">04</span> The design</p>
           <h2 id="design-title">One morning with HeadsUp</h2>
-          <p>Maya has a 9:00 lab meeting. Here's how HeadsUp gets her there, first when everything goes right, then when her bus disappears. Tap any screen to enlarge it.</p>
+          <p>Maya has a 9:00 lab meeting. Tap any screen to enlarge it.</p>
         </div>
 
         <div class="path">
@@ -231,7 +228,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">01</span> 8:15</p>
-                <p>Her commute is waiting: live ETA, leave-by time, and an On-time tag up front.</p>
+                <p>Her commute, with live ETA and leave-by time.</p>
                 <p class="need mono">Trust the ETA</p>
               </div>
             </li>
@@ -242,7 +239,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">02</span> 8:20</p>
-                <p>The countdown already includes her walk to the stop.</p>
+                <p>The countdown includes her walk to the stop.</p>
                 <p class="need mono">Trust the ETA</p>
               </div>
             </li>
@@ -253,7 +250,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">03</span> 8:25</p>
-                <p>“Leave now” lands on her lock screen. No need to open the app.</p>
+                <p>“Leave now” arrives on her lock screen.</p>
                 <p class="need mono">Trust the ETA</p>
               </div>
             </li>
@@ -264,7 +261,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">04</span> 8:27</p>
-                <p>HeadsUp keeps watching the bus while she walks. The map shows only her route.</p>
+                <p>HeadsUp watches the bus while she walks.</p>
                 <p class="need mono">Trust the ETA, early warning</p>
               </div>
             </li>
@@ -281,7 +278,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">05</span> 8:29</p>
-                <p>Route 33 drops off the map. She sees where it was last seen, the likely detour, and what waiting would cost her.</p>
+                <p>Her bus vanishes: last seen, likely detour, cost of waiting.</p>
                 <p class="need mono">Early warning</p>
               </div>
             </li>
@@ -292,7 +289,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">06</span> Any time</p>
-                <p>Every bus carries a status: On time, Late, Full, Detour, or Out of service.</p>
+                <p>Every bus gets a status tag.</p>
                 <p class="need mono">Early warning</p>
               </div>
             </li>
@@ -303,7 +300,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">07</span> 8:29</p>
-                <p>Rideshare, walking, and the next bus side by side, measured against her 9:00 deadline.</p>
+                <p>Backup options, measured against her 9:00 deadline.</p>
                 <p class="need mono">Early warning</p>
               </div>
             </li>
@@ -314,7 +311,7 @@
               </a>
               <div class="step-text">
                 <p class="step-time mono"><span class="step-n">08</span> 8:30</p>
-                <p>Ride booked, arriving 8:52, and she'll hear if Route 33 recovers.</p>
+                <p>Ride booked, arriving 8:52.</p>
                 <p class="need mono">Trust the ETA, early warning</p>
               </div>
             </li>
@@ -324,7 +321,7 @@
         <figure class="wireflow">
           <figcaption>
             <p class="eyebrow">How it flows</p>
-            <p>The full wireflow: Path A when the bus is on time, Path B when it's late or gone, and where they meet.</p>
+            <p>The full flow: bus on time, and bus late or gone.</p>
           </figcaption>
           <a class="wireflow-open" href="assets/img/wireflow.png" aria-haspopup="dialog">
             <img src="assets/img/wireflow.png" width="2256" height="1184" loading="lazy"
@@ -370,20 +367,19 @@
         <div class="status-grid">
           <div class="status-card">
             <p class="mono status-tag">Validated</p>
-            <p>Five potential riders reviewed both concepts, and their preferences matched the NUF scoring, an early signal that riders would choose HeadsUp over today's app.</p>
+            <p>Five potential riders reviewed both concepts, and their preferences matched the scoring.</p>
           </div>
           <div class="status-card">
             <p class="mono status-tag">Next</p>
             <ol class="next-steps">
-              <li>Run a usability test of the wireframes with daily riders</li>
-              <li>Build a clickable prototype of both paths</li>
-              <li>Measure success as fewer missed buses and less time waiting past the estimate</li>
-              <li>Then bring in Where2's destination search for new riders</li>
+              <li>Run a usability test on the wireframes</li>
+              <li>Build a clickable prototype</li>
+              <li>Measure missed buses and wait times</li>
             </ol>
           </div>
           <div class="status-card">
             <p class="mono status-tag">What I learned</p>
-            <p>Choosing between two strong concepts only two points apart was the hardest call. Tying the decision to the pain riders hit most often, and checking it with riders, made it a choice I could defend.</p>
+            <p>The hardest call was choosing between concepts two points apart; checking with riders made it defensible.</p>
           </div>
         </div>
       </div>

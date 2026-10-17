@@ -153,7 +153,7 @@ class TestSite(unittest.TestCase):
         for s in ["Your bus dropped off the map.", "HeadsUp"]:
             self.assertIn(s, self.p.text)
         # Labels are uppercased by CSS, so match them case-insensitively.
-        for s in ["role", "methods", "outcome"]:
+        for s in ["problem", "what i did", "outcome", "role"]:
             self.assertIn(s, self.p.text.lower())
 
 
@@ -487,6 +487,39 @@ class TestSite(unittest.TestCase):
         css = self._css_text()
         for selector in (r"\.screen-prev", r"\.lightbox-close"):
             self.assertRegex(css, selector + r"[^{]*:active")
+
+
+    # --- Quick-glance copy ---------------------------------------------------
+    @staticmethod
+    def _blocks(html):
+        """Visible words of every paragraph-like block."""
+        out = []
+        for m in re.finditer(r"<(p|li|figcaption|dd)\b[^>]*>(.*?)</\1>", html, re.S):
+            text = re.sub(r"<[^>]+>", " ", m.group(2))
+            out.append((m.group(1), len(text.split()), " ".join(text.split())[:60]))
+        return out
+
+    def test_page_can_be_skimmed_in_about_two_minutes(self):
+        words = len(self.p.text.split())
+        self.assertLessEqual(words, 700, f"{words} words is too much for a recruiter's quick glance")
+
+    def test_no_block_of_copy_runs_past_30_words(self):
+        for tag, n, preview in self._blocks(self.html):
+            self.assertLessEqual(n, 30, f"{n} words: {preview}")
+
+    def test_hero_gives_the_whole_story_in_four_rows(self):
+        rows = re.findall(r"<dt>(.*?)</dt>", self.html)
+        self.assertEqual(rows, ["Problem", "What I did", "Outcome", "Role"])
+
+    def test_walkthrough_captions_are_short(self):
+        captions = re.findall(r'<div class="step-text">\s*<p class="step-time[^>]*>.*?</p>\s*<p>(.*?)</p>', self.html, re.S)
+        self.assertEqual(len(captions), 8)
+        for c in captions:
+            self.assertLessEqual(len(re.sub(r"<[^>]+>", " ", c).split()), 10, c)
+
+    def test_extra_reading_has_been_cut(self):
+        for leftover in ("persona-desc", "Concept score", 'class="callout"', "score-note"):
+            self.assertNotIn(leftover, self.html)
 
 
 if __name__ == "__main__":

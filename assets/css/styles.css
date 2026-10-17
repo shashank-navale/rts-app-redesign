@@ -212,14 +212,6 @@ p { margin: 0; text-wrap: pretty; }
   margin-bottom: 4px;
 }
 
-.callout {
-  margin-top: clamp(24px, 3.5vw, 40px);
-  max-width: 62ch;
-  font-size: 1.1875rem;
-  line-height: 1.5;
-}
-.callout strong { font-weight: 700; }
-.callout em { font-style: normal; font-weight: 600; }
 
 @media (min-width: 720px) {
   .shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; overflow: visible; margin-inline: 0; padding-inline: 0; max-width: 840px; }
@@ -268,7 +260,6 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 0.875rem;
 }
 .persona:not(.persona--primary) .avatar { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
-.persona .persona-desc { font-size: 0.9375rem; color: var(--text-2); line-height: 1.55; }
 .persona .persona-quote { margin-top: 14px; font-size: 0.9375rem; font-style: italic; color: var(--ink); line-height: 1.55; }
 .persona .persona-needs { margin-top: 14px; font-size: 0.75rem; color: var(--accent-deep); letter-spacing: 0.04em; }
 
@@ -294,7 +285,6 @@ p { margin: 0; text-wrap: pretty; }
 .score--muted::after { background: var(--muted-bar); }
 .score-label { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
 .score-label .mono { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); margin-right: 4px; vertical-align: middle; }
-.score-note { margin-top: 14px; font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
 
 .verdict { max-width: 64ch; margin-bottom: clamp(28px, 4vw, 40px); }
 .verdict h3 { margin-bottom: 8px; }
